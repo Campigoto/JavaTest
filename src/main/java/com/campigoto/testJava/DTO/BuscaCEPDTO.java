@@ -15,13 +15,14 @@ public class BuscaCEPDTO implements Serializable {
 	private String gia;
 	private String ddd;
 	private String siafi;
+	private boolean erro;
 
 	public BuscaCEPDTO() {
 
 	}
 
 	public BuscaCEPDTO(String cep, String logradouro, String complemento, String bairro, String localidade, String uf,
-			String ibge, String gia, String ddd, String siafi) {
+			String ibge, String gia, String ddd, String siafi, Boolean erro) {
 		super();
 		this.cep = cep;
 		this.logradouro = logradouro;
@@ -33,6 +34,7 @@ public class BuscaCEPDTO implements Serializable {
 		this.gia = gia;
 		this.ddd = ddd;
 		this.siafi = siafi;
+		this.erro = erro;
 	}
 
 	public String getCep() {
@@ -113,6 +115,14 @@ public class BuscaCEPDTO implements Serializable {
 
 	public void setSiafi(String siafi) {
 		this.siafi = siafi;
+	}
+
+	public Boolean getErro() {
+		return erro;
+	}
+
+	public void setErro(boolean erro) {
+		this.erro = erro;
 	}
 
 }

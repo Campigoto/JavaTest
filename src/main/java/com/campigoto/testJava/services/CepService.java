@@ -1,9 +1,12 @@
 package com.campigoto.testJava.services;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.campigoto.testJava.DTO.BuscaCEPDTO;
+import com.campigoto.testJava.resources.exceptions.CepNotFoundException;
+import com.campigoto.testJava.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class CepService {
@@ -12,9 +15,26 @@ public class CepService {
 
 	public BuscaCEPDTO buscar(String cep) {
 
-		RestTemplate restTemplate = new RestTemplate();
-		String url = CEP_API + cep + "/json";
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			String url = CEP_API + cep + "/json";
 
-		return restTemplate.getForObject(url, BuscaCEPDTO.class);
+			ResponseEntity<BuscaCEPDTO> response = restTemplate.getForEntity(url, BuscaCEPDTO.class);
+			if (response.getStatusCodeValue() >= 200 && response.getStatusCodeValue() < 299) {
+				if (!response.getBody().getErro()) {
+					return response.getBody();
+				} else {
+					// cria uma exception específica aqui
+					throw new CepNotFoundException();
+				}
+			} else {
+				// cria uma exception específica aqui
+				throw new ResourceNotFoundException("Falha ao buscar cep:" + cep);
+			}
+
+		} catch (Exception e) {
+			throw new ResourceNotFoundException("Falha ao buscar cep: " + cep);
+		}
 	}
+
 }
