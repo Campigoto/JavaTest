@@ -24,11 +24,11 @@ public class CepService {
 				if (!response.getBody().getErro()) {
 					return response.getBody();
 				} else {
-					// cria uma exception específica aqui
+					
 					throw new CepNotFoundException();
 				}
 			} else {
-				// cria uma exception específica aqui
+				
 				throw new ResourceNotFoundException("Falha ao buscar cep:" + cep);
 			}
 
